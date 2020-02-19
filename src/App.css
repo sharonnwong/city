@@ -1,38 +1,63 @@
+@import '~antd/dist/antd.css';
+
+html{
+  font-size: 16px;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.App-body {
   background-color: #282c34;
   min-height: 100vh;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.city {
+  top: 6rem;
+  font-size: 3rem;
+  position: absolute;
+  font-family: 'Reenie Beanie', cursive;
+  color: #534C65
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header {
+  background: #161415 url(./header.jpg) no-repeat top center;
+  background-size: cover !important;
+	-webkit-background-size: cover !important;
+}
+
+.searching {
+  width: 20%;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+}
+
+.input {
+  padding: 10px;
+  position: absolute;
+  border-radius: 25px;
+  background-color: #ffffff;
+  border: 2px solid rgb(255, 255, 255);
+  opacity: 0.8;
+}
+
+.input:hover{
+  border: none;
+}
+
+.button {
+  position: absolute;
+  right: 0;
+  background-color: #ffffff;
+  border: 2px solid rgb(255, 255, 255);
+  opacity: 0.8;
 }
