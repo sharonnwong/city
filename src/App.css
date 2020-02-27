@@ -61,3 +61,15 @@ header {
   border: 2px solid rgb(255, 255, 255);
   opacity: 0.8;
 }
+
+.iconwrap {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 3rem;
+  color: #ffffff
+}
+
+.iconwrap :hover {
+  color: #f7cae0
+}

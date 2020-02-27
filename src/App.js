@@ -1,8 +1,9 @@
 import React, {useContext,useState} from 'react';
 import './App.css';
-import {Input, Button} from 'antd'
+import {Input, Button, Icon} from 'antd'
 import {Bar} from 'react-chartjs-2'
 import * as moment from 'moment'
+import {Link} from "react-scroll"
 
 const context = React.createContext()
 
@@ -18,7 +19,8 @@ function App() {
   }}>
     <div className="App">
       <Header />   
-      <Body />   
+      <Body /> 
+      <Body2 />  
     </div>
   </context.Provider>
 }
@@ -44,6 +46,18 @@ function Header() {
       />
       <Button className="button" shape="circle" icon="search" onClick={()=> search(ctx)} disabled={!searchTerm} />
     </div>
+    <div >
+      <Link
+        activeClass="active"
+        to="result"
+        spy={true}
+        smooth={true}
+        offset={-70}
+        duration={500}
+      >
+        <Icon className="iconwrap" style={{fontSize: '2.5rem'}} theme="filled" type="down-circle" id="icon"/>
+      </Link>
+    </div>
   </header>
 }
 
@@ -58,12 +72,42 @@ function Body(){
       labels:weather['hourly'].data.map(d=> {let format = 'dd hh:mm'
       return moment(d.time*1000).format(format)}),
       datasets: [{
-        label: 'Temperature',
-        data: weather.daily.data.map(d=>d.temperatureHigh),
-        backgroundColor: 'rgba(132,99,255,0.7)',
-        borderColor: 'rgba(132,99,255,1)',
-        hoverBackgroundColor: 'rgba(132,99,255,0.4)',
-        hoverBorderColor: 'rgba(132,99,255,1)',
+        label: 'Hourly Temperature',
+        data: weather.hourly.data.map(d=>d.temperature),
+        backgroundColor: 'rgba(252,205,205)',
+        borderColor: 'rgba(252,205,205)',
+        hoverBackgroundColor: 'rgba(235,166,166)',
+        hoverBorderColor: 'rgba(235,166,166)',
+      }]
+    }
+  } 
+  return <div className="App-body" id="result">
+    {error && <div className="error">{error}</div>}
+    {data && <div>
+      <Bar data={data}
+        width={800} height={400}
+      />
+    </div>}
+  </div>
+}
+
+function Body2(){
+  const ctx = useContext(context)
+  const {error, weather, mode} = ctx
+  console.log(weather)
+  let data
+  if(weather){
+    console.log(weather)
+    data = {
+      labels:weather['daily'].data.map(d=> {let format = 'ddd'
+      return moment(d.time*1000).format(format)}),
+      datasets: [{
+        label: 'Daily Temperature',
+        data: weather.daily.data.map(d=>(d.temperatureHigh+d.temperatureLow)/2),
+        backgroundColor: 'rgba(252,205,205)',
+        borderColor: 'rgba(252,205,205)',
+        hoverBackgroundColor: 'rgba(235,166,166)',
+        hoverBorderColor: 'rgba(235,166,166)',
       }]
     }
   } 
