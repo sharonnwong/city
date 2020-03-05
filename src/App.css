@@ -8,17 +8,23 @@ html{
   text-align: center;
 }
 
+h6 {
+  color: #ffffff;
+}
+
+
 .App-body {
   background-color: #282c34;
   min-height: 100vh;
   margin: 0 auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 
 .city {
   top: 6rem;
@@ -62,6 +68,11 @@ header {
   opacity: 0.8;
 }
 
+.button:hover{
+  border: none;
+  background-color: #f7cae0;
+}
+
 .iconwrap {
   position: absolute;
   display: flex;
@@ -72,4 +83,22 @@ header {
 
 .iconwrap :hover {
   color: #f7cae0
+}
+
+.hourly-summary {
+  position: absolute;
+  display: flex;
+
+}
+
+.hourly-data {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.daily-data {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
 }

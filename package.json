@@ -8,9 +8,11 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^3.26.9",
     "chart.js": "^2.9.3",
+    "hover.css": "^2.3.2",
     "react": "^16.12.0",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.12.0",
+    "react-ionicons": "^3.1.4",
     "react-scripts": "3.3.1",
     "react-scroll": "^1.7.16",
     "react-scrollable-anchor": "^0.6.1"
