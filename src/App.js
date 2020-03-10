@@ -1,7 +1,8 @@
 import React, {useContext,useState} from 'react';
 import './App.css';
 import {Input, Button, Icon} from 'antd'
-import {Bar} from 'react-chartjs-2'
+import { Tabs } from 'antd';
+import {Bar, Line} from 'react-chartjs-2'
 import * as moment from 'moment'
 import {Link} from "react-scroll"
 import { render } from 'react-dom'
@@ -9,6 +10,7 @@ import IosArrowDropdownCircle from 'react-ionicons/lib/IosArrowDropdownCircle'
 
 
 const context = React.createContext()
+const { TabPane } = Tabs;
 
 function App() {
   const [state, setState] = useState({
@@ -23,8 +25,17 @@ function App() {
   }}>
     <div className="App">
       <Header />
-      <Body />
-      <Body2 />
+      {/* <Tabs className="tabs">
+        <TabPane tab="Hourly Temperature" key="1">
+          <Body />
+        </TabPane>
+        <TabPane tab="Daily Temperature" key="2">
+          <Body2 />
+        </TabPane>
+      </Tabs> */}
+      
+      
+      {/* <Picture /> */}
     </div>
 
   </context.Provider>
@@ -34,7 +45,8 @@ function Header() {
   const ctx = useContext(context)
   const {searchTerm} = ctx
   const [showButton, setShowButton] = useState(false);
-  return <header className="App-body">
+  const [showResult, setShowResult] = useState(false);
+  return <div><header className="App-body">
     <link href="https://fonts.googleapis.com/css?family=Reenie+Beanie&display=swap" rel="stylesheet"></link>
     <div className="city">
       <h1>City</h1>
@@ -57,19 +69,30 @@ function Header() {
     {showButton && 
     <div >
       <Link
+        onClick={()=> {setShowButton(false);setShowResult(true);}}
         activeClass="active"
         to="result"
         spy={true}
         smooth={true}
         offset={-70}
         duration={500}
-        onClick={()=> setShowButton(false)}
       >
-
         <IosArrowDropdownCircle className="iconwrap" fontSize="60px" color="white" beat={true} id="icon"/>
       </Link>
     </div>}
   </header>
+  <div id="result">
+  {showResult &&
+    <Tabs className="tabs" id="tab">
+    <TabPane tab="Hourly Temperature" key="1">
+      <Body />
+    </TabPane>
+    <TabPane tab="Daily Temperature" key="2">
+      <Body2 />
+    </TabPane>
+  </Tabs>
+  }</div>
+  </div>
 }
 
 function Body(){
@@ -86,7 +109,7 @@ function Body(){
       datasets: [{
         label: 'Hourly Temperature',
         data: weather.hourly.data.map(d=>d.temperature),
-        backgroundColor: 'rgba(252,205,205)',
+        
         borderColor: 'rgba(252,205,205)',
         hoverBackgroundColor: 'rgba(235,166,166)',
         hoverBorderColor: 'rgba(235,166,166)',
@@ -96,11 +119,11 @@ function Body(){
   }
 
   /*<div className="hourly-summary">{summary}</div> add this after 'return'*/
-  return <div className="App-body" id="result">
+  return <div className="App-body">
     
     {error && <div className="error">{error}</div>}
     {data && <div className="hourly-data">
-      <Bar data={data}
+      <Line data={data}
         width={600} height={300}
       />
     </div>}
@@ -137,6 +160,11 @@ function Body2(){
   </div>
 }
 
+// function Picture(){
+//   const ctx = useContext(context)
+
+// }
+
 async function search({searchTerm, set}){
   try {
     console.log(searchTerm)
@@ -168,12 +196,29 @@ async function searchFlickr({searchTerm, set}){
     console.log(searchTerm)
     const term = searchTerm
     set({error:''}) 
-
-    const flickrurl = ``
+    const key = 'eb9dd006e876e2039ef7eae792448e2f'
+    const url = `https://api.flickr.com/services/rest/`
   } catch(e) {
     set({error: e.message})
   }
 }
 /*flickrapi = 'eb9dd006e876e2039ef7eae792448e2f'*/
+
+
+// def flickrREST(baseurl = 'https://api.flickr.com/services/rest/',
+//     method = 'flickr.photos.search',
+//     api_key = flickr_key.key,
+//     format = 'json',
+//     params={},
+//     printurl = False
+//     ):
+//     params['method'] = method
+//     params['api_key'] = api_key
+//     params['format'] = format
+//     if format == "json": params["nojsoncallback"]=True
+//     url = baseurl + "?" + urllib.parse.urlencode(params)
+//     if printurl:
+//         print(url)
+//     return safeGet(url)
 
 export default App;

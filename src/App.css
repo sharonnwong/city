@@ -12,6 +12,10 @@ h6 {
   color: #ffffff;
 }
 
+.tabs {
+  background-color: #282c34;
+  color: white;
+}
 
 .App-body {
   background-color: #282c34;
