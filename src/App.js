@@ -143,8 +143,8 @@ function Body2(){
       datasets: [{
         label: 'Daily Temperature',
         data: weather.daily.data.map(d=>(d.temperatureHigh+d.temperatureLow)/2),
-        backgroundColor: 'rgba(252,205,205)',
-        borderColor: 'rgba(252,205,205)',
+        backgroundColor: 'rgba(134,112,76)',
+        borderColor: 'rgba(134,112,76)',
         hoverBackgroundColor: 'rgba(235,166,166)',
         hoverBorderColor: 'rgba(235,166,166)',
       }]
