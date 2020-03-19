@@ -7,10 +7,11 @@ import * as moment from 'moment'
 import {Link} from "react-scroll"
 import { render } from 'react-dom'
 import IosArrowDropdownCircle from 'react-ionicons/lib/IosArrowDropdownCircle'
-
+import { defaults } from 'react-chartjs-2';
 
 const context = React.createContext()
 const { TabPane } = Tabs;
+defaults.global.maintainAspectRatio = false
 
 function App() {
   const [state, setState] = useState({
@@ -25,17 +26,7 @@ function App() {
   }}>
     <div className="App">
       <Header />
-      {/* <Tabs className="tabs">
-        <TabPane tab="Hourly Temperature" key="1">
-          <Body />
-        </TabPane>
-        <TabPane tab="Daily Temperature" key="2">
-          <Body2 />
-        </TabPane>
-      </Tabs> */}
-      
-      
-      {/* <Picture /> */}
+
     </div>
 
   </context.Provider>
@@ -46,11 +37,10 @@ function Header() {
   const {searchTerm} = ctx
   const [showButton, setShowButton] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  return <div><header className="App-body">
+  return <div><header className="App-body2">
     <link href="https://fonts.googleapis.com/css?family=Reenie+Beanie&display=swap" rel="stylesheet"></link>
     <div className="city">
-      <h1>City</h1>
-      
+      <h1>City</h1>     
       <h6>A city is its skyline, its weather, and its people.<br/></h6>
     </div>
     <div className="searching">
@@ -60,7 +50,7 @@ function Header() {
         onChange={e=> ctx.set({searchTerm:e.target.value})}
         placeholder="Search for a city"
         onKeyPress={e=>{
-          if(e.key==='Enter' && searchTerm) search(ctx)
+          if(e.key==='Enter' && searchTerm) {search(ctx);setShowButton(true);}
         }}
       />
       <Button className="button" shape="circle" icon="search" 
@@ -91,7 +81,9 @@ function Header() {
       <Body2 />
     </TabPane>
   </Tabs>
-  }</div>
+  }
+  
+  </div>
   </div>
 }
 
@@ -101,13 +93,14 @@ function Body(){
   console.log(weather)
   let summary
   let data
+  let options
   if(weather){
     console.log(weather)
     data = {
       labels:weather['hourly'].data.map(d=> {let format = 'dd hh:mm'
       return moment(d.time*1000).format(format)}),
       datasets: [{
-        label: 'Hourly Temperature',
+        label: 'Hourly Temperature (ºF)',
         data: weather.hourly.data.map(d=>d.temperature),
         
         borderColor: 'rgba(252,205,205)',
@@ -116,16 +109,27 @@ function Body(){
       }]
     }
     summary = weather['hourly'].summary
+    options = {
+      title: {
+          display: true,
+          text: '"' + summary + '"',
+          fontSize: 18,
+          fontColor: '#FFFFFF',
+          fontStyle: 'italic',
+      }
+    }
+    
   }
 
   /*<div className="hourly-summary">{summary}</div> add this after 'return'*/
   return <div className="App-body">
-    
     {error && <div className="error">{error}</div>}
     {data && <div className="hourly-data">
-      <Line data={data}
-        width={600} height={300}
-      />
+      <article className="canvas-container">
+        <Line data={data}
+          options={options}
+        />
+      </article>
     </div>}
   </div>
 }
@@ -134,14 +138,16 @@ function Body2(){
   const ctx = useContext(context)
   const {error, weather, mode} = ctx
   console.log(weather)
+  let summary
   let data
+  let options
   if(weather){
     console.log(weather)
     data = {
       labels:weather['daily'].data.map(d=> {let format = 'ddd'
       return moment(d.time*1000).format(format)}),
       datasets: [{
-        label: 'Daily Temperature',
+        label: 'Daily Temperature (ºF)',
         data: weather.daily.data.map(d=>(d.temperatureHigh+d.temperatureLow)/2),
         backgroundColor: 'rgba(252,205,205)',
         borderColor: 'rgba(252,205,205)',
@@ -149,21 +155,29 @@ function Body2(){
         hoverBorderColor: 'rgba(235,166,166)',
       }]
     }
+    summary = weather['daily'].summary
+    options = {
+      title: {
+          display: true,
+          text: '"' + summary + '"',
+          fontSize: 18,
+          fontColor: '#FFFFFF',
+          fontStyle: 'italic',
+      }
+    }
+    
   } 
   return <div className="App-body">
     {error && <div className="error">{error}</div>}
-    {data && <div>
+    {data && <div className="daily-data">
+      <article className="canvas-container">
       <Bar data={data}
-        width={600} height={300}
+        options={options}
       />
+      </article>
     </div>}
   </div>
 }
-
-// function Picture(){
-//   const ctx = useContext(context)
-
-// }
 
 async function search({searchTerm, set}){
   try {
@@ -202,23 +216,5 @@ async function searchFlickr({searchTerm, set}){
     set({error: e.message})
   }
 }
-/*flickrapi = 'eb9dd006e876e2039ef7eae792448e2f'*/
-
-
-// def flickrREST(baseurl = 'https://api.flickr.com/services/rest/',
-//     method = 'flickr.photos.search',
-//     api_key = flickr_key.key,
-//     format = 'json',
-//     params={},
-//     printurl = False
-//     ):
-//     params['method'] = method
-//     params['api_key'] = api_key
-//     params['format'] = format
-//     if format == "json": params["nojsoncallback"]=True
-//     url = baseurl + "?" + urllib.parse.urlencode(params)
-//     if printurl:
-//         print(url)
-//     return safeGet(url)
 
 export default App;

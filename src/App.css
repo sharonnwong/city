@@ -1,15 +1,44 @@
 @import '~antd/dist/antd.css';
 
+.canvas-container {
+  height: 40vh;
+  width: 70vw;
+  display: flex;
+}
+
+/* This is mobile, as default*/
 html{
-  font-size: 16px;
+  font-size: 15px;
+  /* this sets 1rem to 15px*/
+}
+
+/*tablet*/
+@media only screen and (min-width: 600px){
+  html{
+      font-size: 17px;
+      /* this sets 1rem to 17px*/
+  }
+}
+
+/*laptop*/
+@media only screen and (min-width: 768px){
+  html{
+      font-size: 19px;
+      /* this sets 1rem to 19px*/
+  }
 }
 
 .App {
   text-align: center;
 }
 
+h1 {
+  font-size: 5rem;
+}
+
 h6 {
   color: #ffffff;
+  font-size: 1.5rem;
 }
 
 .tabs {
@@ -29,6 +58,19 @@ h6 {
   color: white;
 }
 
+.App-body2 {
+  background-color: #282c34;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+
 
 .city {
   top: 6rem;
@@ -36,6 +78,8 @@ h6 {
   position: absolute;
   font-family: 'Reenie Beanie', cursive;
   color: #282c34;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -44,8 +88,9 @@ header {
 	-webkit-background-size: cover !important;
 }
 
+
 .searching {
-  width: 20%;
+  width: 16rem;
   display: flex;
   flex-direction: row;
   position: absolute;
@@ -93,6 +138,13 @@ header {
   position: absolute;
   display: flex;
 
+}
+
+
+.hourly-description {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
 }
 
 .hourly-data {
